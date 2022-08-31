@@ -1,4 +1,4 @@
-# XPO Version 5.3
+# XPO Version 5.2a
 
 This JSON file contains the DWD Overlay and a mapping to the LDC tagsets.
 

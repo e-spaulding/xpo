@@ -1,3 +1,11 @@
+### Unreleased (2022-11-08)
+
+Minor change as suggested in the 2022-11-01 XPO subcommittee call. In Wikidata, "plan" and "information" are siblings (both are direct subclasses of "abstract_object"). In DWD, we want "plan" to inherit from "information" (and "information" will inherit from "abstract_object" as usual).
+
+#### New parent added
+
+- plan_Q1371819 --> information_Q11028
+
 ### Unreleased (2022-10-25)
 
 Made changes suggested in issues [#1](https://github.com/e-spaulding/xpo/issues/1), [#2](https://github.com/e-spaulding/xpo/issues/2), [#3](https://github.com/e-spaulding/xpo/issues/3), and [#5](https://github.com/e-spaulding/xpo/issues/5).

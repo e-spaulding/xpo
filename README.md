@@ -4,6 +4,14 @@ This version is not yet released. For now, the latest official release (v5.2a) c
 
 This JSON file contains the DWD Overlay and a mapping to the LDC tagsets.
 
+### Changes (2022-11-08)
+
+Minor change as suggested in the 2022-11-01 XPO subcommittee call. In Wikidata, "plan" and "information" are siblings (both are direct subclasses of "abstract_object"). In DWD, we want "plan" to inherit from "information" (and "information" will inherit from "abstract_object" as usual).
+
+#### New parent added
+
+- plan_Q1371819 --> information_Q11028
+
 ### Changes (2022-10-25)
 
 See the [changelog](https://github.com/e-spaulding/xpo/blob/main/CHANGELOG.md) for the full list of changes, dated to this repository's beginning.

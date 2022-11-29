@@ -1,8 +1,25 @@
-# XPO Version 5.2b (Unreleased)
+# DWD Overlay Version 5.2b (Unreleased)
 
 This version is not yet released. For now, the latest official release (v5.2a) can be found [here](https://github.com/e-spaulding/xpo/releases/tag/v5.2a).
 
-This JSON file contains the DWD Overlay and a mapping to the LDC tagsets.
+The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets, their argument structures, and LDC tagsets. The overlay, which is in JSON format, is split into four sub-dictionaries: events, entities, relations, and temporal relations. Each key is the identifier for the DWD node, and each value contains a dictionary with various fields giving information for that node.
+
+## Fields
+
+```
+"type" - the type of node. one of "event_type", "entity_type", or "relation_type"
+"wd_node" - Q or P identifier from Wikidata
+"name" - Qnode or Pnode label from Wikidata
+"wd_description" - description from Wikidata
+"curated_by" - how was the node added to the overlay? If the value is "cmu", the node was added automatically along with a PropBank roleset. If the value is "xpo", the node was added after a manual curation process
+"arguments" - a list of arguments with their names and slot constraints
+"overlay_parents" - direct superclasses of the node within the sub-ontology of the overlay (ie, in Wikidata, the parent may not be a direct superclass, but an ancestor further up the tree)
+"ldc_types" - a list of LDC types that are mapped to the DWD node. One DWD node can have several LDC types. This dictionary also contains arguments for the LDC event types which can be cross-referenced to the DWD arguments using the field "dwd_arg_name"
+"similar_nodes" - a list of similar Qnodes. The type of similarity can be "SS" (semantic similarity) or "NN" (nearest neighbor) 
+"related_qnodes" - for Pnodes, the "Wikidata item of this property" Qnode can be found in this section
+```
+
+## Changelog
 
 ### Changes (2022-11-08)
 

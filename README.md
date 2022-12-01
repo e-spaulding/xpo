@@ -21,6 +21,20 @@ The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets,
 
 ## Changelog
 
+### Changes (2022-12-01)
+
+Minor typos and errors in the JSON fixed.
+
+#### Removed
+
+- Some duplicate AM_loc arguments
+- DWD_Q2349814 (duplicate of/too similar to DWD_Q210978)
+
+#### Changed
+
+- Standardized case for argument modifier slots (issue [#10](https://github.com/e-spaulding/xpo/issues/10))
+- DWD_Q647578 - nodes "piracy" and "copyright_infringement" seem to have merged. Updated name to "copyright_infringement" and removed overlay_parent which is the same node
+
 ### Changes (2022-11-08)
 
 Minor change as suggested in the 2022-11-01 XPO subcommittee call. In Wikidata, "plan" and "information" are siblings (both are direct subclasses of "abstract_object"). In DWD, we want "plan" to inherit from "information" (and "information" will inherit from "abstract_object" as usual).

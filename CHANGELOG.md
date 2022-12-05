@@ -1,3 +1,15 @@
+### Unreleased (2022-12-05)
+
+Minor typos and errors in the JSON fixed, plus, standardized AM_loc.* argument constraints.
+
+#### Removed
+
+- Slot constraint geographic_entity from A2 of DWD_Q245359
+
+#### Changed
+
+- Every instance of \{"AM_loc_location", "AM_loc__location"\} to "AM_loc" (Issue [#11](https://github.com/e-spaulding/xpo/issues/11))
+
 ### Unreleased (2022-12-01)
 
 Minor typos and errors in the JSON fixed.

@@ -6,18 +6,16 @@ The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets,
 
 ## Fields
 
-```
-"type" - the type of node. one of "event_type", "entity_type", or "relation_type"
-"wd_node" - Q or P identifier from Wikidata
-"name" - Qnode or Pnode label from Wikidata
-"wd_description" - description from Wikidata
-"curated_by" - how was the node added to the overlay? If the value is "cmu", the node was added semi-automatically along with a PropBank roleset. (As such, those entries may be imperfect, so please submit any errors you find as an [issue](https://github.com/e-spaulding/xpo/issues/new).) If the value is "xpo", the node was added after a manual curation process. 
-"arguments" - a list of arguments with their names and slot constraints. Note that the slot constraints should be taken as a suggestion rather than a strict constraint.
-"overlay_parents" - direct superclasses of the node within the sub-ontology of the overlay (ie, in Wikidata, the parent may not be a direct superclass, but an ancestor further up the tree)
-"ldc_types" - a list of LDC types that are mapped to the DWD node. One DWD node can have several LDC types. This dictionary also contains arguments for the LDC event types which can be cross-referenced to the DWD arguments using the field "dwd_arg_name"
-"similar_nodes" - a list of similar Qnodes. The type of similarity can be "SS" (semantic similarity) or "NN" (nearest neighbor) 
-"related_qnodes" - for Pnodes, the "Wikidata item of this property" Qnode can be found in this section
-```
+- `type` - the type of node. one of `event_type`, `entity_type`, or `relation_type`
+- `wd_node` - Q or P identifier from Wikidata
+- `name` - Qnode or Pnode label from Wikidata
+- `wd_description` - description from Wikidata
+- `curated_by` - how was the node added to the overlay? If the value is `cmu`, the node was added semi-automatically along with a PropBank roleset. (As such, those entries may be imperfect, so please submit any errors you find as an [issue](https://github.com/e-spaulding/xpo/issues/new).) If the value is `xpo`, the node was added after a manual curation process. 
+- `arguments` - a list of arguments with their names and slot constraints. Note that the slot constraints should be taken as a suggestion rather than a strict constraint.
+- `overlay_parents` - direct superclasses of the node within the sub-ontology of the overlay (ie, in Wikidata, the parent may not be a direct superclass, but an ancestor further up the tree)
+- `ldc_types` - a list of LDC types that are mapped to the DWD node. One DWD node can have several LDC types. This dictionary also contains arguments for the LDC event types which can be cross-referenced to the DWD arguments using the field `dwd_arg_name`
+- `similar_nodes` - a list of similar Qnodes. The type of similarity can be `SS` (semantic similarity) or `NN` (nearest neighbor) 
+- `related_qnodes` - for Pnodes, the "Wikidata item of this property" Qnode can be found in this section
 
 ## Changelog
 

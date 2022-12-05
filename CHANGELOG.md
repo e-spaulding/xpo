@@ -9,6 +9,7 @@ Minor typos and errors in the JSON fixed, plus, standardized AM_loc.* argument c
 #### Changed
 
 - Every instance of \{"AM_loc_location", "AM_loc__location"\} to "AM_loc" (Issue [#11](https://github.com/e-spaulding/xpo/issues/11))
+- Standardized ordering of keys in argument dictionaries. Ordering is now ("short_name", "name", "constraints"). (Issue [#11](https://github.com/e-spaulding/xpo/issues/11))
 
 ### Unreleased (2022-12-01)
 

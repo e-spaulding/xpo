@@ -7,7 +7,7 @@ from qwikidata.entity import WikidataItem, WikidataProperty
 from qwikidata.linked_data_interface import get_entity_dict_from_api
 
 parser = argparse.ArgumentParser()
-logging.basicConfig(level=logging.WARNING)
+logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 parser.add_argument(
@@ -53,6 +53,28 @@ def infer_filename():
     
     return ''
 
+def get_arguments(pb_string):
+    roleset = propbank.roleset(pb_string)
+
+    arguments = []
+    
+    for role in roleset.findall("roles/role"):
+        argument = {}
+
+        n = role.attrib['n'].upper()
+        f = role.attrib['f'].lower()
+        desc = role.attrib['descr'].lower().replace(' ', '_')
+        desc = desc.replace(',', '')
+
+        short_name = 'A' + n + '_' + f
+        name = short_name + '_' + desc
+        argument['short_name'] = short_name
+        argument['name'] = name
+        argument['constraints'] = []
+        arguments.append(argument)
+
+    return arguments
+
 if __name__ == '__main__':
 
     args = parser.parse_args()
@@ -64,9 +86,12 @@ if __name__ == '__main__':
         logger.warning(f'Filename not provided, inferred as "{filename}"')
     else:
         filename = args.xpo
-    if args.qnode_types not in ['entities', 'events']:
+    if args.qnode_type not in ['entities', 'events']:
         logger.error(f'Can only add Qnodes that are "entities" or "events"')
         quit()
+    
+    if args.qnode_type == 'events':
+        from nltk.corpus import propbank
 
     f = open(filename)
     xpo = json.load(f)
@@ -76,39 +101,55 @@ if __name__ == '__main__':
     added = 0
 
     for line in f.readlines():
-        qnode_string = line.strip()
+        tokens = line.split('\t')
+        qnode_string = tokens[0].strip()
+        pb_roleset = None
+        if len(tokens) > 1:
+            pb_roleset = tokens[1].strip()
         qdict = get_entity_dict_from_api(qnode_string)
         if 'Q' in qnode_string:
             q = WikidataItem(qdict)
         else:
             q = WikidataProperty(qdict)
-        id_ = q.entity_id
+        id_ = q.entity_id # do not use because it may differ from DWD ID
         name = q.get_label().lower().replace(' ', '_')
         desc = q.get_description()
+
+        if id_ != qnode_string:
+            try_dwd_key = dwd_key = 'DWD_' + id_
+            if try_dwd_key in xpo[args.qnode_type]:
+                logger.warning(f'Was instructed to add entry {try_dwd_key} (redirected from old {qnode_string}) in {args.qnode_type}, but it already exists! Skipping this addition.')
+                continue
 
         dwd_key = 'DWD_' + qnode_string
 
         if dwd_key in xpo['events'] or dwd_key in xpo['entities'] or dwd_key in xpo['relations'] or dwd_key in xpo['temporal_relations']:
-            logger.warning(f'About to add entry {dwd_key} in {args.qnode_types}, but it already exists! Skipping this addition...')
+            logger.warning(f'About to add entry {dwd_key} in {args.qnode_type}, but it already exists! Skipping this addition.')
             continue
         
-        if args.qnode_types == 'entities':
+        arguments = None
+        if args.qnode_type == 'entities':
             type_string = 'entity_type'
         else:
             type_string = 'event_type'
+            arguments = get_arguments(pb_roleset)
 
-        xpo[args.qnode_types][dwd_key] = {}
-        xpo[args.qnode_types][dwd_key]['type'] = type_string
-        xpo[args.qnode_types][dwd_key]['name'] = name
-        xpo[args.qnode_types][dwd_key]['wd_node'] = id_
-        xpo[args.qnode_types][dwd_key]['wd_description'] = desc
-        xpo[args.qnode_types][dwd_key]['overlay_parents'] = []
-        xpo[args.qnode_types][dwd_key]['curated_by'] = 'xpo'
-        xpo[args.qnode_types][dwd_key]['ldc_types'] = []
-        xpo[args.qnode_types][dwd_key]['similar_nodes'] = []
+        xpo[args.qnode_type][dwd_key] = {}
+        xpo[args.qnode_type][dwd_key]['type'] = type_string
+        xpo[args.qnode_type][dwd_key]['name'] = name
+        xpo[args.qnode_type][dwd_key]['wd_node'] = qnode_string
+        xpo[args.qnode_type][dwd_key]['wd_description'] = desc
+        xpo[args.qnode_type][dwd_key]['overlay_parents'] = []
+        if pb_roleset:
+            xpo[args.qnode_type][dwd_key]['pb_roleset'] = pb_roleset
+        xpo[args.qnode_type][dwd_key]['curated_by'] = 'xpo'
+        if arguments:
+            xpo[args.qnode_type][dwd_key]['arguments'] = arguments
+        xpo[args.qnode_type][dwd_key]['ldc_types'] = []
+        xpo[args.qnode_type][dwd_key]['similar_nodes'] = []
         added += 1
 
     logger.info(f'Added {added} qnodes.')
-    of = open('updated_xpo_please_rename.json', 'w')
+    of = open('updated_xpo_with_additions_please_rename.json', 'w')
     json.dump(xpo, of, indent=4)
     of.close()

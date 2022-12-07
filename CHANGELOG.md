@@ -1,3 +1,43 @@
+### Unreleased (2022-12-06)
+
+Entity and event node additions based on suggestions from ISI, plus a handful of relations.
+
+#### New DWD Nodes Added
+
+- Q18351973_disembarkation
+- Q7126717_download
+- Q176274_recess
+- Q110458263_taking
+- Q16944487_waiting
+- Q43059_drought
+- Q50380088_protective agent
+- Q3863_asteroid
+- Q93352_coast
+- Q251777_custom
+- Q852835_customer
+- Q1088842_detonator
+- Q4115986_disaster area
+- Q65088916_dummy
+- Q141022_eclipse
+- Q1096907_electrical grid
+- Q3053337_employer
+- Q3196_fire
+- Q58197759_hurricane
+- Q16886469_importance
+- Q16358610_instructor
+- Q7239_organism
+- Q105810946_physical location
+- Q11997597_representative
+- Q2995644_result
+- Q1020013_share price
+- Q6671777_structure
+- Q66254282_target
+- Q17502905_the media
+- Q11471_time
+- P1264_valid in period
+- P4250_defined daily dose
+- P2257_event interval
+
 ### Unreleased (2022-12-05)
 
 Minor typos and errors in the JSON fixed, plus, standardized AM_loc.* argument constraints.

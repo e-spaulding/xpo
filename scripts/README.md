@@ -36,6 +36,13 @@ Q180856
 Q30612
 ```
 
+For events, if you'd like to include a PropBank mapping, the include the roleset on the same line as the Qnode, separated by a tab, ie:
+
+```
+Q18351973	disembark.01
+Q7126717	download.01
+```
+
 It adds the Qnodes, along with their type \[`entity_type`, `event_type`, etc.\], name, and description. By default, they will have no `overlay_parents`, `ldc_types`, or `similar_nodes`. If the need arises to add these values en masse, the script and input file format will be modified to do so.
 
 Usage:

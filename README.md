@@ -245,5 +245,3 @@ Note: Read "-->" as "is child of"
 	- DWD_Q732722
 	- DWD_Q83462
 	- DWD_Q1192097
-
-

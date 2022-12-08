@@ -1,4 +1,4 @@
-### Unreleased (2022-12-06)
+### Changes (2022-12-06)
 
 Entity and event node additions based on suggestions from ISI, plus a handful of relations.
 
@@ -38,7 +38,7 @@ Entity and event node additions based on suggestions from ISI, plus a handful of
 - P4250_defined daily dose
 - P2257_event interval
 
-### Unreleased (2022-12-05)
+### Changes (2022-12-05)
 
 Minor typos and errors in the JSON fixed, plus, standardized AM_loc.* argument constraints.
 
@@ -51,7 +51,7 @@ Minor typos and errors in the JSON fixed, plus, standardized AM_loc.* argument c
 - Every instance of \{"AM_loc_location", "AM_loc__location"\} to "AM_loc" (Issue [#11](https://github.com/e-spaulding/xpo/issues/11))
 - Standardized ordering of keys in argument dictionaries. Ordering is now ("short_name", "name", "constraints"). (Issue [#11](https://github.com/e-spaulding/xpo/issues/11))
 
-### Unreleased (2022-12-01)
+### Changes (2022-12-01)
 
 Minor typos and errors in the JSON fixed.
 
@@ -65,7 +65,7 @@ Minor typos and errors in the JSON fixed.
 - Standardized case for argument modifier slots (issue [#10](https://github.com/e-spaulding/xpo/issues/10))
 - DWD_Q647578 - nodes "piracy" and "copyright_infringement" seem to have merged. Updated name to "copyright_infringement" and removed overlay_parent which is the same node
 
-### Unreleased (2022-11-08)
+### Changes (2022-11-08)
 
 Minor change as suggested in the 2022-11-01 XPO subcommittee call. In Wikidata, "plan" and "information" are siblings (both are direct subclasses of "abstract_object"). In DWD, we want "plan" to inherit from "information" (and "information" will inherit from "abstract_object" as usual).
 
@@ -73,7 +73,7 @@ Minor change as suggested in the 2022-11-01 XPO subcommittee call. In Wikidata, 
 
 - plan_Q1371819 --> information_Q11028
 
-### Unreleased (2022-10-25)
+### Changes (2022-10-25)
 
 Made changes suggested in issues [#1](https://github.com/e-spaulding/xpo/issues/1), [#2](https://github.com/e-spaulding/xpo/issues/2), [#3](https://github.com/e-spaulding/xpo/issues/3), and [#5](https://github.com/e-spaulding/xpo/issues/5).
 

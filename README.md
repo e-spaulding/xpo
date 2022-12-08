@@ -1,4 +1,4 @@
-# DWD Overlay Version 5.2b (Unreleased)
+# DWD Overlay Version 5.3
 
 This version is not yet released. For now, the latest official release (v5.2a) can be found [here](https://github.com/e-spaulding/xpo/releases/tag/v5.2a).
 

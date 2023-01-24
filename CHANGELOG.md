@@ -1,3 +1,11 @@
+### Changes (2023-01-24)
+
+Incorrect PB mapping and arguments fixed.
+
+#### Changed
+
+- PB mapping and arguments for casting_Q849891 (Issue [#14](https://github.com/e-spaulding/xpo/issues/14))
+
 ### Changes (2022-12-23)
 
 Entity node changes in Wikidata required changes in the overlay.

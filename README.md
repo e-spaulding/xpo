@@ -17,6 +17,15 @@ The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets,
 
 ## Changelog
 
+### Changes (2022-12-23)
+
+Entity node changes in Wikidata required changes in the overlay.
+
+#### Qnodes changed
+
+- right_Q22059430 --> right_Q2386606
+- equipment_Q16798631 --> equipment_Q10273457
+
 ### Changes (2022-12-06)
 
 Entity and event node additions based on suggestions from ISI, plus a handful of relations.

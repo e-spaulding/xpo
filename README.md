@@ -1,4 +1,4 @@
-# DWD Overlay Version 5.3.1
+# DWD Overlay Version 5.3.3
 
 The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets, their argument structures, and LDC tagsets. The overlay, which is in JSON format, is split into four sub-dictionaries: events, entities, relations, and temporal relations. Each key is the identifier for the DWD node, and each value contains a dictionary with various fields giving information for that node.
 
@@ -19,6 +19,14 @@ The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets,
 - `template_curation` - The curation status of the template. Either manually vetted by XPO (`xpo`) or automatically generated, and possibly an unnatural or incorrect sentence (`auto`).
 
 ## Changelog
+
+### Changes (2023-03-01)
+
+Added event templates.
+
+#### Added
+
+- New fields "template" and "template_curation" to every event node with their respective templates and curation values. `xpo` means the template has been manually vetted by the XPO subcommittee; `auto` means the template was automatically generated and may be errorful.
 
 ### Changes (2023-02-28)
 

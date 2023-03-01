@@ -1,3 +1,11 @@
+### Changes (2023-03-01)
+
+Added event templates.
+
+#### Added
+
+- New fields "template" and "template_curation" to every event node with their respective templates and curation values. `xpo` means the template has been manually vetted by the XPO subcommittee; `auto` means the template was automatically generated and may be errorful.
+
 ### Changes (2023-02-28)
 
 Added relations from Rosario's relation overlay. 49 new Pnodes were added to the relations with PropBank mappings and 34 mappings were added to existing DWD Pnodes. 

@@ -1,4 +1,4 @@
-# DWD Overlay Version 5.3
+# DWD Overlay Version 5.3.1
 
 The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets, their argument structures, and LDC tagsets. The overlay, which is in JSON format, is split into four sub-dictionaries: events, entities, relations, and temporal relations. Each key is the identifier for the DWD node, and each value contains a dictionary with various fields giving information for that node.
 
@@ -9,13 +9,38 @@ The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets,
 - `name` - Qnode or Pnode label from Wikidata
 - `wd_description` - description from Wikidata
 - `curated_by` - how was the node added to the overlay? If the value is `cmu`, the node was added semi-automatically along with a PropBank roleset. (As such, those entries may be imperfect, so please submit any errors you find as an [issue](https://github.com/e-spaulding/xpo/issues/new).) If the value is `xpo`, the node was added after a manual curation process. 
-- `arguments` - a list of arguments with their names and slot constraints. Note that the slot constraints should be taken as a suggestion rather than a strict constraint.
+- `arguments` - a list of arguments with their names and slot constraints. Note that the slot constraints should be taken as a suggestion rather than a strict constraint, unless `mapping_flags` says otherwise.
+	- Relations have a `wd_slot` and possibly a `pb_mapping` with `mapping_flags`. The `wd_slot` gives the Pnode slot in Wikidata (either subject or object); `pb_mapping` gives the PropBank argument name corresponding the the WD slot; and `mapping_flags` gives a list of flags warning users when a mapping may not work. (The only flag right now is `strict_constraints`, which means a PropBank event cannot be used to generate a Pnode with this mapping unless the constraints are met.)
 - `overlay_parents` - direct superclasses of the node within the sub-ontology of the overlay (ie, in Wikidata, the parent may not be a direct superclass, but an ancestor further up the tree)
 - `ldc_types` - a list of LDC types that are mapped to the DWD node. One DWD node can have several LDC types. This dictionary also contains arguments for the LDC event types which can be cross-referenced to the DWD arguments using the field `dwd_arg_name`
 - `similar_nodes` - a list of similar Qnodes. The type of similarity can be `SS` (semantic similarity) or `NN` (nearest neighbor) 
 - `related_qnodes` - for Pnodes, the "Wikidata item of this property" Qnode can be found in this section
+- `template` - A template which allows users to automatically generate a natural language sentence with an event and its argument instantiation. Only for events.
+- `template_curation` - The curation status of the template. Either manually vetted by XPO (`xpo`) or automatically generated, and possibly an unnatural or incorrect sentence (`auto`).
 
 ## Changelog
+
+### Changes (2023-02-28)
+
+Added relations from Rosario's relation overlay. 49 new Pnodes were added to the relations with PropBank mappings and 34 mappings were added to existing DWD Pnodes. 
+
+#### Added
+
+- Mappings from [this](https://docs.google.com/spreadsheets/d/1UE-suWHWghrSxsY0_rDnX8k6oYs5ISFXpLr_Muss5pA/edit?usp=sharing) list
+
+#### Changed
+
+- Added new keys to arguments for relations: "wd_slot" and "mapping_flags". Notes:
+	- "wd_slot" is redundant with "name", but is more descriptive. The "wd_slot" key gives the name of the Pnode slot in Wikidata for each argument mapping. "name" will be kept to avoid breaking code using previous JSONs, even though "name": "A0" always corresponds to "wd_slot": "subject" and "name": "A1" always corresponds to "wd_slot": "object". 
+	- "mapping_flags" lists flags users should pay attention to when mapping from relations to PropBank and vice-versa. The only flag we currently have is "strict_constraints" which indicates that a Pnode cannot be inferred from a PropBank event mention unless the constraints are met for each argument. We expect to add more flags (and documentation for their meanings) as we add more complex PropBank mappings.
+
+### Changes (2023-02-20)
+
+Removed a loop in the hierarchy.
+
+#### Changed
+
+- Removed parent of DWD_Q2434238_heritage (the parent was DWD_Q2434238 itself)
 
 ### Changes (2023-01-24)
 

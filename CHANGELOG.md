@@ -1,3 +1,25 @@
+### Changes (2023-02-28)
+
+Added relations from Rosario's relation overlay. 49 new Pnodes were added to the relations with PropBank mappings and 34 mappings were added to existing DWD Pnodes. 
+
+#### Added
+
+- Mappings from [this](https://docs.google.com/spreadsheets/d/1UE-suWHWghrSxsY0_rDnX8k6oYs5ISFXpLr_Muss5pA/edit?usp=sharing) list
+
+#### Changed
+
+- Added new keys to arguments for relations: "wd_slot" and "mapping_flags". Notes:
+	- "wd_slot" is redundant with "name", but is more descriptive. The "wd_slot" key gives the name of the Pnode slot in Wikidata for each argument mapping. "name" will be kept to avoid breaking code using previous JSONs, even though "name": "A0" always corresponds to "wd_slot": "subject" and "name": "A1" always corresponds to "wd_slot": "object". 
+	- "mapping_flags" lists flags users should pay attention to when mapping from relations to PropBank and vice-versa. The only flag we currently have is "strict_constraints" which indicates that a Pnode cannot be inferred from a PropBank event mention unless the constraints are met for each argument. We expect to add more flags (and documentation for their meanings) as we add more complex PropBank mappings.
+
+### Changes (2023-02-20)
+
+Removed a loop in the hierarchy.
+
+#### Changed
+
+- Removed parent of DWD_Q2434238_heritage (the parent was DWD_Q2434238 itself)
+
 ### Changes (2023-01-24)
 
 Incorrect PB mapping and arguments fixed.

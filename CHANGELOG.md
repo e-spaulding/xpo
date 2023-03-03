@@ -1,3 +1,16 @@
+### Changes (2023-03-02)
+
+Integrated event mappings from the PropBank-Wikidata mapping annotation project. 
+
+#### Added
+
+- 235 new event nodes with PropBank mappings (see [here](https://docs.google.com/spreadsheets/d/1dj5Q9xXIjWNrtWOpI5bV4zJzHnpvMQdS8iHmKosPc2w/edit?usp=sharing), tab "Nodes that were ADDED")
+
+#### Changed
+
+- PropBank mappings for ~111 event nodes (see [here](https://docs.google.com/spreadsheets/d/1dj5Q9xXIjWNrtWOpI5bV4zJzHnpvMQdS8iHmKosPc2w/edit?usp=sharing), tab "Nodes for which the PB mapping CHANGED")
+- Field `mapping_flags` to `mapping_types`
+
 ### Changes (2023-03-01)
 
 Added event templates.

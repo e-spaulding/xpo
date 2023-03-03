@@ -8,9 +8,9 @@ The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets,
 - `wd_node` - Q or P identifier from Wikidata
 - `name` - Qnode or Pnode label from Wikidata
 - `wd_description` - description from Wikidata
-- `curated_by` - how was the node added to the overlay? If the value is `cmu`, the node was added semi-automatically along with a PropBank roleset. (As such, those entries may be imperfect, so please submit any errors you find as an [issue](https://github.com/e-spaulding/xpo/issues/new).) If the value is `xpo`, the node was added after a manual curation process. 
-- `arguments` - a list of arguments with their names and slot constraints. Note that the slot constraints should be taken as a suggestion rather than a strict constraint, unless `mapping_flags` says otherwise.
-	- Relations have a `wd_slot` and possibly a `pb_mapping` with `mapping_flags`. The `wd_slot` gives the Pnode slot in Wikidata (either subject or object); `pb_mapping` gives the PropBank argument name corresponding the the WD slot; and `mapping_flags` gives a list of flags warning users when a mapping may not work. (The only flag right now is `strict_constraints`, which means a PropBank event cannot be used to generate a Pnode with this mapping unless the constraints are met.)
+- `curated_by` - how was the node added to the overlay? If the value is `cmu`, the node was added semi-automatically along with a PropBank roleset. (As such, those entries may be imperfect, so please submit any errors you find as an [issue](https://github.com/e-spaulding/xpo/issues/new).) If the value is `xpo`, the node was added after a manual curation process and at least double-annotated. If the value is `xpo_partial`, the mapping is from one annotator's single pass.
+- `arguments` - a list of arguments with their names and slot constraints. Note that the slot constraints should be taken as a suggestion rather than a strict constraint, unless `mapping_types` says otherwise.
+	- Relations have a `wd_slot` and possibly a `pb_mapping` with `mapping_types`. The `wd_slot` gives the Pnode slot in Wikidata (either subject or object); `pb_mapping` gives the PropBank argument name corresponding the the WD slot; and `mapping_types` gives a list of flags warning users when a mapping may not work. (The only type right now is `strict_constraints`, which means a PropBank event cannot be used to generate a Pnode with this mapping unless the constraints are met.)
 - `overlay_parents` - direct superclasses of the node within the sub-ontology of the overlay (ie, in Wikidata, the parent may not be a direct superclass, but an ancestor further up the tree)
 - `ldc_types` - a list of LDC types that are mapped to the DWD node. One DWD node can have several LDC types. This dictionary also contains arguments for the LDC event types which can be cross-referenced to the DWD arguments using the field `dwd_arg_name`
 - `similar_nodes` - a list of similar Qnodes. The type of similarity can be `SS` (semantic similarity) or `NN` (nearest neighbor) 
@@ -19,6 +19,19 @@ The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets,
 - `template_curation` - The curation status of the template. Either manually vetted by XPO (`xpo`) or automatically generated, and possibly an unnatural or incorrect sentence (`auto`).
 
 ## Changelog
+
+### Changes (2023-03-02)
+
+Integrated event mappings from the PropBank-Wikidata mapping annotation project. 
+
+#### Added
+
+- 235 new event nodes with PropBank mappings (see [here](https://docs.google.com/spreadsheets/d/1dj5Q9xXIjWNrtWOpI5bV4zJzHnpvMQdS8iHmKosPc2w/edit?usp=sharing), tab "Nodes that were ADDED")
+
+#### Changed
+
+- PropBank mappings for ~111 event nodes (see [here](https://docs.google.com/spreadsheets/d/1dj5Q9xXIjWNrtWOpI5bV4zJzHnpvMQdS8iHmKosPc2w/edit?usp=sharing), tab "Nodes for which the PB mapping CHANGED")
+- Field `mapping_flags` to `mapping_types`
 
 ### Changes (2023-03-01)
 

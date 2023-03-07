@@ -1,3 +1,33 @@
+### Changes (2023-03-07)
+
+Disambiguated some PB-WD mappings in which more than one roleset was mapped to a Qnode.
+
+#### Changed
+
+Roleset mappings for the following 21 event nodes:
+
+- DWD_Q105460363
+- DWD_Q110458263
+- DWD_Q1121708
+- DWD_Q11639276
+- DWD_Q1643184
+- DWD_Q204015
+- DWD_Q23090331
+- DWD_Q241625
+- DWD_Q28972820
+- DWD_Q29017603
+- DWD_Q29485
+- DWD_Q3933467
+- DWD_Q4026292
+- DWD_Q47496130
+- DWD_Q65757353
+- DWD_Q8070
+- DWD_Q8081
+- DWD_Q83500
+- DWD_Q878143
+- DWD_Q9073584
+- DWD_Q930933
+
 ### Changes (2023-03-02)
 
 Integrated event mappings from the PropBank-Wikidata mapping annotation project. 

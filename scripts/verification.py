@@ -35,7 +35,7 @@ def infer_filename():
     # first, strict search
     for root, dirs, files in os.walk(dir_path):
         for file in files:
-            pattern = 'xpo_v[0-9]\.[0-9][a-z]?\.json'
+            pattern = 'xpo_v[0-9]\.[0-9]([a-z]?|(\.[0-9])?)\.json'
             if re.fullmatch(pattern=pattern, string=str(file)):
                 return root + '/' + str(file)
     

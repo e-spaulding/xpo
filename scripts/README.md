@@ -36,11 +36,19 @@ Q180856
 Q30612
 ```
 
-For events, if you'd like to include a PropBank mapping, the include the roleset on the same line as the Qnode, separated by a tab, ie:
+For events, if you'd like to include a PropBank mapping, the include the roleset on the same line as the Qnode, along with its curation status, in that order, separated by a tab, ie:
 
 ```
-Q18351973	disembark.01
-Q7126717	download.01
+Q18351973	disembark.01  xpo
+Q7126717	download.01 xpo
+```
+
+For relations (as Pnodes), the script will search for subjects, objects, and any mapping types, in that order, all on the same tab-separated line, ie:
+
+```
+P1026	author.01	A0	A1	strict_constraints
+P50	author.01	A1	A0	
+P19	bear.02	A1	AM_loc	
 ```
 
 It adds the Qnodes, along with their type \[`entity_type`, `event_type`, etc.\], name, and description. By default, they will have no `overlay_parents`, `ldc_types`, or `similar_nodes`. If the need arises to add these values en masse, the script and input file format will be modified to do so.

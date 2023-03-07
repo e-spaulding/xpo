@@ -4,8 +4,8 @@ import os
 import re
 import logging
 import copy
-from qwikidata.entity import WikidataItem, WikidataProperty
-from qwikidata.linked_data_interface import get_entity_dict_from_api
+from qwikidata.entity import WikidataItem, WikidataProperty # type: ignore
+from qwikidata.linked_data_interface import get_entity_dict_from_api # type: ignore
 
 parser = argparse.ArgumentParser()
 logging.basicConfig(level=logging.INFO)
@@ -258,7 +258,7 @@ if __name__ == '__main__':
         quit()
     
     if args.qnode_type == 'events' or args.qnode_type == 'relations':
-        from nltk.corpus import propbank
+        from nltk.corpus import propbank # type: ignore
 
     f = open(filename)
     xpo = json.load(f)

@@ -3,8 +3,8 @@ import argparse
 import os
 import re
 import logging
-from qwikidata.entity import WikidataItem, WikidataProperty
-from qwikidata.linked_data_interface import get_entity_dict_from_api
+from qwikidata.entity import WikidataItem, WikidataProperty # type: ignore
+from qwikidata.linked_data_interface import get_entity_dict_from_api # type: ignore
 
 parser = argparse.ArgumentParser()
 logging.basicConfig(level=logging.WARNING)

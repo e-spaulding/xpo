@@ -1,3 +1,93 @@
+### Changes (2023-03-07)
+
+Disambiguated some PB-WD mappings in which more than one roleset was mapped to a Qnode.
+
+#### Changed
+
+Roleset mappings for the following 21 event nodes:
+
+- DWD_Q105460363
+- DWD_Q110458263
+- DWD_Q1121708
+- DWD_Q11639276
+- DWD_Q1643184
+- DWD_Q204015
+- DWD_Q23090331
+- DWD_Q241625
+- DWD_Q28972820
+- DWD_Q29017603
+- DWD_Q29485
+- DWD_Q3933467
+- DWD_Q4026292
+- DWD_Q47496130
+- DWD_Q65757353
+- DWD_Q8070
+- DWD_Q8081
+- DWD_Q83500
+- DWD_Q878143
+- DWD_Q9073584
+- DWD_Q930933
+
+### Changes (2023-03-02)
+
+Integrated event mappings from the PropBank-Wikidata mapping annotation project. 
+
+#### Added
+
+- 235 new event nodes with PropBank mappings (see [here](https://docs.google.com/spreadsheets/d/1dj5Q9xXIjWNrtWOpI5bV4zJzHnpvMQdS8iHmKosPc2w/edit?usp=sharing), tab "Nodes that were ADDED")
+
+#### Changed
+
+- PropBank mappings for ~111 event nodes (see [here](https://docs.google.com/spreadsheets/d/1dj5Q9xXIjWNrtWOpI5bV4zJzHnpvMQdS8iHmKosPc2w/edit?usp=sharing), tab "Nodes for which the PB mapping CHANGED")
+- Field `mapping_flags` to `mapping_types`
+
+### Changes (2023-03-01)
+
+Added event templates.
+
+#### Added
+
+- New fields "template" and "template_curation" to every event node with their respective templates and curation values. `xpo` means the template has been manually vetted by the XPO subcommittee; `auto` means the template was automatically generated and may be errorful.
+
+### Changes (2023-02-28)
+
+Added relations from Rosario's relation overlay. 49 new Pnodes were added to the relations with PropBank mappings and 34 mappings were added to existing DWD Pnodes. 
+
+#### Added
+
+- Mappings from [this](https://docs.google.com/spreadsheets/d/1UE-suWHWghrSxsY0_rDnX8k6oYs5ISFXpLr_Muss5pA/edit?usp=sharing) list
+
+#### Changed
+
+- Added new keys to arguments for relations: "wd_slot" and "mapping_flags". Notes:
+	- "wd_slot" is redundant with "name", but is more descriptive. The "wd_slot" key gives the name of the Pnode slot in Wikidata for each argument mapping. "name" will be kept to avoid breaking code using previous JSONs, even though "name": "A0" always corresponds to "wd_slot": "subject" and "name": "A1" always corresponds to "wd_slot": "object". 
+	- "mapping_flags" lists flags users should pay attention to when mapping from relations to PropBank and vice-versa. The only flag we currently have is "strict_constraints" which indicates that a Pnode cannot be inferred from a PropBank event mention unless the constraints are met for each argument. We expect to add more flags (and documentation for their meanings) as we add more complex PropBank mappings.
+
+### Changes (2023-02-20)
+
+Removed a loop in the hierarchy.
+
+#### Changed
+
+- Removed parent of DWD_Q2434238_heritage (the parent was DWD_Q2434238 itself)
+
+### Changes (2023-01-24)
+
+Incorrect PB mapping and arguments fixed.
+
+#### Changed
+
+- PB mapping and arguments for casting_Q849891 (Issue [#14](https://github.com/e-spaulding/xpo/issues/14))
+
+### Changes (2022-12-23)
+
+Entity node changes in Wikidata required changes in the overlay.
+
+#### Qnodes changed
+
+- right_Q22059430 --> right_Q2386606
+- equipment_Q16798631 --> equipment_Q10273457
+
 ### Changes (2022-12-06)
 
 Entity and event node additions based on suggestions from ISI, plus a handful of relations.

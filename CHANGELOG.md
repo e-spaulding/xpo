@@ -6,13 +6,17 @@
 
 - See entity nodes in the third tab in [this sheet](https://docs.google.com/spreadsheets/d/1QTHOOoiVgqvwZpB1hemYjmPxvOE63HB9laSPA4zjVjw/edit?usp=sharing)
 
+#### Removed
+
+- right_Q22059430: redirects to right_Q2386606; fixing error in previous merge ([#19](https://github.com/e-spaulding/xpo/issues/19))
+
 ### Changes (2023-03-14)
 
 #### Changed
 
 Updated redirects
 
-- equipment_Q16798631 updated to equipment_Q10273457
+- equipment_Q16798631 updated to equipment_Q10273457 ([#19](https://github.com/e-spaulding/xpo/issues/19))
 
 ### Changes (2023-03-07)
 

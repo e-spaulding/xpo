@@ -1,3 +1,19 @@
+### Changes (2023-03-15)
+
+#### Added
+
+18 entity nodes and their parents in the overlay (chemical spill domain)
+
+- See entity nodes in the third tab in [this sheet](https://docs.google.com/spreadsheets/d/1QTHOOoiVgqvwZpB1hemYjmPxvOE63HB9laSPA4zjVjw/edit?usp=sharing)
+
+### Changes (2023-03-14)
+
+#### Changed
+
+Updated redirects
+
+- equipment_Q16798631 updated to equipment_Q10273457
+
 ### Changes (2023-03-07)
 
 Disambiguated some PB-WD mappings in which more than one roleset was mapped to a Qnode.

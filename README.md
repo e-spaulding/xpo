@@ -20,6 +20,22 @@ The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets,
 
 ## Changelog
 
+### Changes (2023-03-20)
+
+Curated events identified as part of the chemical spill domain. Several events were already in the overlay; those that were automatically added in the past were manually vetted and occasionally modified slightly. All curation statuses were updated to show that the events have been vetted manually.
+
+#### Added
+
+- Q383973_electricity_generation
+
+#### Changed
+
+- Q25536342_toxin_exposure A2_gol_exposed_to restricted to "toxin"
+- Q87412590_nuclear_hazard AM_mnr_endangering_thing added and restricted to "nuclear_material"
+- Q1175042_supervision curation status updated
+- Q105825117_dumping curation status updated
+- Q828827_power_outage A1_ppt_thing_lost restricted to "electric_power_distribution"
+
 ### Changes (2023-03-15)
 
 #### Added

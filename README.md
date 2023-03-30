@@ -20,6 +20,18 @@ The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets,
 
 ## Changelog
 
+### Changes (2023-03-30)
+
+Final chemical spill additions.
+
+#### Added
+
+- Q275459_radiation_syndrome
+
+#### Changed
+
+- Specific diseases mapping to ill.01 now have strict constraints for A2 as themselves
+
 ### Changes (2023-03-20)
 
 Curated events identified as part of the chemical spill domain. Several events were already in the overlay; those that were automatically added in the past were manually vetted and occasionally modified slightly. All curation statuses were updated to show that the events have been vetted manually.

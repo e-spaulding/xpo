@@ -1,3 +1,15 @@
+### Changes (2023-03-31)
+
+Fixing small issues with templates.
+
+#### Changed
+
+- Template for DWD_Q83267 (and added an argument)
+
+#### Added
+
+- Some missing templates
+
 ### Changes (2023-03-30)
 
 Final chemical spill additions.

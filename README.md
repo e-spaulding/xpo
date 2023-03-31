@@ -22,7 +22,7 @@ The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets,
 
 ### Changes (2023-03-31)
 
-Fixing small issues with templates.
+Fixing various small issues.
 
 #### Changed
 
@@ -31,6 +31,22 @@ Fixing small issues with templates.
 #### Added
 
 - Missing templates for ~300 events. All events should now have templates.
+
+#### Removed
+
+- DWD_Q930412 (no arguments, only partial mapping)
+- Fixed DWD_Q1191527 wd_node field
+
+Following are not in DWD but were added to 5.4 ([#20](https://github.com/e-spaulding/xpo/issues/20)):
+
+- DWD_Q112803924
+- DWD_Q113280972
+- DWD_Q113594218
+- DWD_Q115158676
+- DWD_Q115287494
+- DWD_Q115298947
+- DWD_Q115397708
+- DWD_Q116771298
 
 ### Changes (2023-03-30)
 

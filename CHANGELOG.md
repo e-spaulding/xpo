@@ -8,7 +8,7 @@ Fixing small issues with templates.
 
 #### Added
 
-- Some missing templates
+- Missing templates for ~300 events. All events should now have templates.
 
 ### Changes (2023-03-30)
 

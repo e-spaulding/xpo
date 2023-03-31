@@ -1,4 +1,4 @@
-# DWD Overlay Version 5.4.1
+# DWD Overlay Version 5.4.2
 
 The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets, their argument structures, and LDC tagsets. The overlay, which is in JSON format, is split into four sub-dictionaries: events, entities, relations, and temporal relations. Each key is the identifier for the DWD node, and each value contains a dictionary with various fields giving information for that node.
 
@@ -30,7 +30,7 @@ Fixing small issues with templates.
 
 #### Added
 
-- Some missing templates
+- Missing templates for ~300 events. All events should now have templates.
 
 ### Changes (2023-03-30)
 

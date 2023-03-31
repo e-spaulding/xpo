@@ -1,3 +1,79 @@
+### Changes (2023-03-31)
+
+Fixing various small issues.
+
+#### Changed
+
+- Template for DWD_Q83267 (and added an argument)
+
+#### Added
+
+- Missing templates for ~300 events. All events should now have templates.
+
+#### Removed
+
+- DWD_Q930412 (no arguments, only partial mapping)
+- Fixed DWD_Q1191527 wd_node field
+
+Following are not in DWD but were added to 5.4 ([#20](https://github.com/e-spaulding/xpo/issues/20)):
+
+- DWD_Q112803924
+- DWD_Q113280972
+- DWD_Q113594218
+- DWD_Q115158676
+- DWD_Q115287494
+- DWD_Q115298947
+- DWD_Q115397708
+- DWD_Q116771298
+
+### Changes (2023-03-30)
+
+Final chemical spill additions.
+
+#### Added
+
+- Q275459_radiation_syndrome
+
+#### Changed
+
+- Specific diseases mapping to ill.01 now have strict constraints for A2 as themselves
+
+### Changes (2023-03-20)
+
+Curated events identified as part of the chemical spill domain. Several events were already in the overlay; those that were automatically added in the past were manually vetted and occasionally modified slightly. All curation statuses were updated to show that the events have been vetted manually.
+
+#### Added
+
+- Q383973_electricity_generation
+
+#### Changed
+
+- Q25536342_toxin_exposure A2_gol_exposed_to restricted to "toxin"
+- Q87412590_nuclear_hazard AM_mnr_endangering_thing added and restricted to "nuclear_material"
+- Q1175042_supervision curation status updated
+- Q105825117_dumping curation status updated
+- Q828827_power_outage A1_ppt_thing_lost restricted to "electric_power_distribution"
+
+### Changes (2023-03-15)
+
+#### Added
+
+18 entity nodes and their parents in the overlay (chemical spill domain)
+
+- See entity nodes in the third tab in [this sheet](https://docs.google.com/spreadsheets/d/1QTHOOoiVgqvwZpB1hemYjmPxvOE63HB9laSPA4zjVjw/edit?usp=sharing)
+
+#### Removed
+
+- right_Q22059430: redirects to right_Q2386606; fixing error in previous merge ([#19](https://github.com/e-spaulding/xpo/issues/19))
+
+### Changes (2023-03-14)
+
+#### Changed
+
+Updated redirects
+
+- equipment_Q16798631 updated to equipment_Q10273457 ([#19](https://github.com/e-spaulding/xpo/issues/19))
+
 ### Changes (2023-03-07)
 
 Disambiguated some PB-WD mappings in which more than one roleset was mapped to a Qnode.

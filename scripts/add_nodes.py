@@ -273,8 +273,22 @@ if __name__ == '__main__':
         tokens = line.split('\t')
         qnode_string = tokens[0].strip()
         pb_roleset = None
+        parent_qnode_string = None
+        overlay_parents = []
         if len(tokens) > 1:
-            pb_roleset = tokens[1].strip()
+            if args.qnode_type == 'entities':
+                parent_qnode_string = tokens[1].strip()
+                parent_qdict = get_entity_dict_from_api(parent_qnode_string)
+                parent_q = WikidataItem(parent_qdict)
+                parent_id = parent_q.entity_id
+                parent_name = parent_q.get_label().lower().replace(' ', '_')
+                if parent_id == parent_qnode_string:
+                    overlay_parents.append({'name': parent_name, 'wd_node': parent_id})
+                else:
+                    logger.warning(f'Overlay parent {parent_qnode_string} for child {qnode_string} is deprecated in Wikidata. Cannot add.')
+                    continue
+            else:
+                pb_roleset = tokens[1].strip()
         qdict = get_entity_dict_from_api(qnode_string)
         if 'Q' in qnode_string:
             q = WikidataItem(qdict)
@@ -286,7 +300,6 @@ if __name__ == '__main__':
         desc = q.get_description()
 
         # DWD-specific values
-        overlay_parents = []
         ldc_types = []
         similar_nodes = []
         related_qnodes = []

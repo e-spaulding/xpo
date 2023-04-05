@@ -8,7 +8,12 @@ from qwikidata.entity import WikidataItem, WikidataProperty # type: ignore
 from qwikidata.linked_data_interface import get_entity_dict_from_api # type: ignore
 
 parser = argparse.ArgumentParser()
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(
+    filename='node_additions.log',
+    filemode='w',
+    format='%(asctime)s,%(msecs)d %(name)s %(levelname)s %(message)s',
+    datefmt='%H:%M:%S',
+    level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 parser.add_argument(
@@ -311,10 +316,10 @@ if __name__ == '__main__':
             try_dwd_key = dwd_key = 'DWD_' + id_
             if try_dwd_key in xpo[args.qnode_type]:
                 if not args.update_redirects:
-                    logger.warning(f'Was instructed to add entry {try_dwd_key} (redirected from old QID {qnode_string}) in {args.qnode_type}, but it already exists! Skipping this addition. To rename and overwrite this node, run this code with the flag --update_redirects')
+                    logger.warning(f'\t{args.qnode_type}\t{qnode_string}\tWD_redirect\tskip')
                     continue
                 else:
-                    logger.warning(f'Deprecating old DWD node DWD_{qnode_string} in {args.qnode_type}. It will be overwritten and renamed {try_dwd_key}.')
+                    logger.warning(f'\t{args.qnode_type}\tDWD_{qnode_string}\tWD_redirect\trenamed_{try_dwd_key}')
                     deprecated_nodes['DWD_' + qnode_string] = copy.deepcopy(xpo[args.qnode_type]['DWD_' + qnode_string])
                     deprecated_nodes['DWD_' + qnode_string]['redirects_to'] = try_dwd_key
                     del xpo[args.qnode_type]['DWD_' + qnode_string]
@@ -336,15 +341,15 @@ if __name__ == '__main__':
             
             # Find out what the user wants to do about overwriting nodes...
             if not args.overwrite:
-                logger.warning(f'About to add entry {dwd_key} in {args.qnode_type}, but it already exists! Skipping this addition. To overwrite this node, run this code with the flag --overwrite')
+                logger.warning(f'\t{args.qnode_type}\t{dwd_key}\talready_exists\tskip')
                 continue
             else:
                 if 'pb_roleset' in xpo[args.qnode_type][dwd_key].keys() and pb_roleset != xpo[args.qnode_type][dwd_key]['pb_roleset']:
                     # Don't allow the user to overwrite nodes that have LDC mappings
                     if 'ldc_types' in xpo[args.qnode_type][dwd_key].keys() and len(xpo[args.qnode_type][dwd_key]['ldc_types']) > 0:
-                        logger.warning(f'Cannot overwrite {dwd_key} because it is an event that has LDC mappings and the proposed PB roleset differs. This must be overwritten manually to avoid breaking the mapping. Skipping this addition.')
+                        logger.warning(f'\t{args.qnode_type}\t{dwd_key}\tLDC_mapping\tskip')
                         continue
-                    logger.warning(f'Overwriting existing entry {dwd_key} in {args.qnode_type}.')
+                    logger.warning(f'\t{args.qnode_type}\t{dwd_key}\talready_exists_diff_mapping\toverwritten')
                     overwritten_nodes[dwd_key] = copy.deepcopy(xpo[args.qnode_type][dwd_key]) # snapshot of overwritten node
 
                     # If applicable, keep old overlay parents, LDC mappings, & similar/related nodes:
@@ -357,7 +362,7 @@ if __name__ == '__main__':
                     if 'related_qnodes' in xpo[args.qnode_type][dwd_key].keys():
                         related_qnodes = xpo[args.qnode_type][dwd_key]['related_qnodes']
                 else:
-                    logger.warning(f'Proposed mapping {dwd_key} to {pb_roleset} already exists. Only field to be changed is "curated_by" and then moving on.')
+                    logger.warning(f'\t{args.qnode_type}\t{dwd_key}\talready_exists_same_mapping\tchange_curated_by')
                     if args.qnode_type == 'events':
                         try:
                             curated_by = tokens[2].strip()
@@ -365,7 +370,10 @@ if __name__ == '__main__':
                             curated_by = 'UNKNOWN'
                         xpo[args.qnode_type][dwd_key]['curated_by'] = curated_by
                     continue
-
+        else:
+            # log this addition
+            logger.info(f'\t{args.qnode_type}\t{dwd_key}\tnew_node\tnode_added')
+            
         arguments = None
         if args.qnode_type == 'entities':
             type_string = 'entity_type'

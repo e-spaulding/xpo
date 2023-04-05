@@ -350,6 +350,12 @@ if __name__ == '__main__':
                         logger.warning(f'\t{args.qnode_type}\t{dwd_key}\tLDC_mapping\tskip')
                         continue
                     logger.warning(f'\t{args.qnode_type}\t{dwd_key}\talready_exists_diff_mapping\toverwritten')
+
+                    # Don't overwrite if curation status is 'xpo'
+                    if 'curated_by' in xpo[args.qnode_type][dwd_key].keys() and xpo[args.qnode_type][dwd_key]['curated_by'] == 'xpo':
+                        logger.warning(f'\t{args.qnode_type}\t{dwd_key}\talready_curated_by_xpo\tskip')
+                        continue
+                    
                     overwritten_nodes[dwd_key] = copy.deepcopy(xpo[args.qnode_type][dwd_key]) # snapshot of overwritten node
 
                     # If applicable, keep old overlay parents, LDC mappings, & similar/related nodes:
@@ -373,7 +379,7 @@ if __name__ == '__main__':
         else:
             # log this addition
             logger.info(f'\t{args.qnode_type}\t{dwd_key}\tnew_node\tnode_added')
-            
+
         arguments = None
         if args.qnode_type == 'entities':
             type_string = 'entity_type'

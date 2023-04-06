@@ -11,6 +11,7 @@ Added more PB-WD mappings.
 - Mappings for DWD nodes on the second tab [here](https://docs.google.com/spreadsheets/d/1diOybJQ12Awt54lk66Jabs_GeWnq8eKRZ3HGAwEgvRk/edit?usp=sharing)
 - Corrected PB mapping in DWD_Q26972
 - Constraints on A1 of DWD_Q4254955
+- PB mapping for DWD_Q10843872 and updating its name
 
 ### Changes (2023-03-31)
 

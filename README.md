@@ -26,13 +26,14 @@ Added more PB-WD mappings.
 
 #### Added
 
-- Event nodes with PB mappings on the first tab [here](https://docs.google.com/spreadsheets/d/1ThN8TEzUeGb8_Oun5E-Bpin1aSAAWdgvAzlUyXcedzs/edit?usp=sharing)
+- Event nodes with PB mappings on the first tab [here](https://docs.google.com/spreadsheets/d/1diOybJQ12Awt54lk66Jabs_GeWnq8eKRZ3HGAwEgvRk/edit?usp=sharing)
 
 #### Changed
 
-- Mappings for DWD nodes on the second tab [here](https://docs.google.com/spreadsheets/d/1ThN8TEzUeGb8_Oun5E-Bpin1aSAAWdgvAzlUyXcedzs/edit?usp=sharing)
+- Mappings for DWD nodes on the second tab [here](https://docs.google.com/spreadsheets/d/1diOybJQ12Awt54lk66Jabs_GeWnq8eKRZ3HGAwEgvRk/edit?usp=sharing)
 - Corrected PB mapping in DWD_Q26972
 - Constraints on A1 of DWD_Q4254955
+- PB mapping for DWD_Q10843872 and updating its name
 
 ### Changes (2023-03-31)
 

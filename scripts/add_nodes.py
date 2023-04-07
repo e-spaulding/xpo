@@ -281,6 +281,7 @@ if __name__ == '__main__':
         parent_qnode_string = None
         overlay_parents = []
         if len(tokens) > 1:
+            # TODO add this to the documentation
             if args.qnode_type == 'entities':
                 parent_qnode_string = tokens[1].strip()
                 parent_qdict = get_entity_dict_from_api(parent_qnode_string)
@@ -379,6 +380,7 @@ if __name__ == '__main__':
         else:
             # log this addition
             logger.info(f'\t{args.qnode_type}\t{dwd_key}\tnew_node\tnode_added')
+            added += 1
 
         arguments = None
         if args.qnode_type == 'entities':
@@ -434,7 +436,6 @@ if __name__ == '__main__':
         if args.qnode_type == 'events' and template and template_curation:
             xpo[args.qnode_type][dwd_key]['template'] = template
             xpo[args.qnode_type][dwd_key]['template_curation'] = template_curation
-        added += 1
 
     logger.info(f'Added {added} nodes.')
     of = open('updated_xpo_with_additions_please_rename.json', 'w')

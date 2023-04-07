@@ -37,6 +37,7 @@ Based on Issue [#24](https://github.com/e-spaulding/xpo/issues/24)
 
 - DWD_Q10676833 --> DWD_Q424737
 - DWD_Q12779002 --> DWD_Q99348376
+- Also fixed a small amount of redirects
 
 ### Changes (2023-04-04)
 

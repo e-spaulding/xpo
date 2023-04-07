@@ -1,3 +1,21 @@
+### Changes (2023-04-07)
+
+#### Added
+
+Suggestions based on gaps in CMU's schema library:
+
+- Q788790 as an entity rather than an event, parent DWD_Q11028
+- Q24229398
+- Q12737077
+- Q12870, parent DWD_Q79529
+
+#### Changed
+
+Based on Issue [#24](https://github.com/e-spaulding/xpo/issues/24)
+
+- DWD_Q10676833 --> DWD_Q424737
+- DWD_Q12779002 --> DWD_Q99348376
+
 ### Changes (2023-04-04)
 
 Added more PB-WD mappings.

@@ -4,6 +4,10 @@
 
 Reverted some changes from 5.4.4 that caused problems for those using DWD. (Issue (#27)[https://github.com/e-spaulding/xpo/issues/27])
 
+#### Removed
+
+- DWD_Q424737: it was added by error
+
 ### Changes (2023-04-07)
 
 #### Added

@@ -1,3 +1,9 @@
+### Changes (2023-04-10)
+
+#### Changed
+
+Reverted some changes from 5.4.4 that caused problems for those using DWD. (Issue (#27)[https://github.com/e-spaulding/xpo/issues/27])
+
 ### Changes (2023-04-07)
 
 #### Added

@@ -4,7 +4,7 @@ Find pointers to notes, recordings, etc., from previous XPO meetings here.
 
 ## 2023-06-05
 
-- June 5th XPO Call: [Recordings](https://drive.google.com/drive/folders/16TMFqutGZWLjMhLa-y7RaiwcgrBsCTI7?usp=drive_link) and [Slides](https://docs.google.com/presentation/d/1j4DDhnwruGrgw1UBQ-cbjBgMyLKx1zIHv5v3FkNVNtM/edit?usp=sharing)
+- June 5th XPO Call: [Recording](https://drive.google.com/file/d/1m8pGk2I-_l2Tb1RYGfVcxSyZDbZfsa8c/view?usp=sharing) and [Slides](https://docs.google.com/presentation/d/1j4DDhnwruGrgw1UBQ-cbjBgMyLKx1zIHv5v3FkNVNtM/edit?usp=sharing)
 
 ## 2023-03-08
 

@@ -4,7 +4,7 @@ The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets,
 
 ## Current coverage
 
-Please see the tables below for details of the current coverage of the overlay and progress on integrating the human-annotated PropBank mappings:
+Please see the tables below for the current coverage of the overlay, and the [paper](https://github.com/e-spaulding/xpo/blob/main/documentation/SpauldingEtAl2023DWDOverlay.pdf) for more details:
 
 <p align="center">
 	<img src="./documentation/Table1.png"/>

@@ -6,6 +6,7 @@ import logging
 import copy
 from qwikidata.entity import WikidataItem, WikidataProperty # type: ignore
 from qwikidata.linked_data_interface import get_entity_dict_from_api # type: ignore
+from generate_templates import TemplateGenerator
 
 parser = argparse.ArgumentParser()
 logging.basicConfig(
@@ -69,12 +70,51 @@ def infer_filename():
     
     return ''
 
+def get_irregular_pb_arguments(base_form, roleset_name, append_to_file):
+    # Attempting to find roleset with baseform
+    try:
+        elements = propbank.rolesets(base_form)
+    except:
+        logger.error(f'Base form {base_form} for {roleset_name} was incorrect.')
+        return ''
+    
+    for element in elements:
+        if element.attrib['id'] == roleset_name:
+            roleset = element
+            if append_to_file:
+                # keep track of all of them that i find
+                file_with_irregulars = open('scripts/irregular_propbank_ids.txt', 'a')
+                file_with_irregulars.write(f'\n{roleset_name}\t{base_form}')
+                file_with_irregulars.close()
+            return roleset
+    
+    # unsuccessful
+    return ''
+
 def get_arguments(pb_string):
     try:
         roleset = propbank.roleset(pb_string)
     except:
-        logger.error(f'Frameset file for {pb_string} not found.')
-        return []
+        # first, look through a file where i've been storing these irregulars:
+        file_with_irregulars = open('scripts/irregular_propbank_ids.txt')
+        base_form = ''
+        append_to_file = False
+        for line in file_with_irregulars.readlines():
+            tokens = line.strip().split('\t')
+            if tokens[0] == pb_string:
+                base_form = tokens[1]
+        file_with_irregulars.close()
+        if base_form == '':
+            append_to_file = True
+            # ask the user (myself) to give the base form
+            base_form = input(f'Try entering the base form for {pb_string}:')
+
+        roleset = get_irregular_pb_arguments(base_form, pb_string, append_to_file)
+
+        # something still went wrong:
+        if roleset == '':
+            logger.error(f'Frameset file for {pb_string} not found.')
+            return []
 
     arguments = []
     
@@ -265,11 +305,12 @@ if __name__ == '__main__':
     if args.qnode_type == 'events' or args.qnode_type == 'relations':
         from nltk.corpus import propbank # type: ignore
 
+    if args.qnode_type == 'events':
+        template_gen = TemplateGenerator()
+
     f = open(filename)
     xpo = json.load(f)
     f.close()
-    overwritten_nodes = {}
-    deprecated_nodes = {}
     
     f = open(args.qnodes)
     added = 0
@@ -278,6 +319,7 @@ if __name__ == '__main__':
         tokens = line.split('\t')
         qnode_string = tokens[0].strip()
         pb_roleset = None
+        curated_by = None
         parent_qnode_string = None
         overlay_parents = []
         if len(tokens) > 1:
@@ -293,9 +335,16 @@ if __name__ == '__main__':
                 else:
                     logger.warning(f'Overlay parent {parent_qnode_string} for child {qnode_string} is deprecated in Wikidata. Cannot add.')
                     continue
+            elif args.qnode_type == 'events':
+                pb_roleset = tokens[1].strip()
+                curated_by = tokens[2].strip()
             else:
                 pb_roleset = tokens[1].strip()
-        qdict = get_entity_dict_from_api(qnode_string)
+        try:
+            qdict = get_entity_dict_from_api(qnode_string)
+        except:
+            logger.error(f'\t{args.qnode_type}\t{qnode_string}\tnot_found_by_api\tskip')
+            continue
         if 'Q' in qnode_string:
             q = WikidataItem(qdict)
         else:
@@ -306,6 +355,7 @@ if __name__ == '__main__':
         desc = q.get_description()
 
         # DWD-specific values
+        additional_rolesets = []
         ldc_types = []
         similar_nodes = []
         related_qnodes = []
@@ -321,8 +371,8 @@ if __name__ == '__main__':
                     continue
                 else:
                     logger.warning(f'\t{args.qnode_type}\tDWD_{qnode_string}\tWD_redirect\trenamed_{try_dwd_key}')
-                    deprecated_nodes['DWD_' + qnode_string] = copy.deepcopy(xpo[args.qnode_type]['DWD_' + qnode_string])
-                    deprecated_nodes['DWD_' + qnode_string]['redirects_to'] = try_dwd_key
+                    # deprecated_nodes['DWD_' + qnode_string] = copy.deepcopy(xpo[args.qnode_type]['DWD_' + qnode_string])
+                    # deprecated_nodes['DWD_' + qnode_string]['redirects_to'] = try_dwd_key
                     del xpo[args.qnode_type]['DWD_' + qnode_string]
                     dwd_key = try_dwd_key
         else:
@@ -336,57 +386,68 @@ if __name__ == '__main__':
                 if dwd_key in xpo[k]:
                     where = k
                     break
-            if where != args.qnode_type and args.overwrite:
-                logger.warning(f'Cannot overwrite {dwd_key} in {args.qnode_type} because it already exists in {where}. This must be overwritten manually to avoid breaking manual curation. Skipping this addition.')
+            if where != args.qnode_type:
+                logger.info(f'Node {dwd_key} already exists in {where}. It will not be added in {args.qnode_type}.')
                 continue
             
-            # Find out what the user wants to do about overwriting nodes...
-            if not args.overwrite:
-                logger.warning(f'\t{args.qnode_type}\t{dwd_key}\talready_exists\tskip')
-                continue
-            else:
-                if 'pb_roleset' in xpo[args.qnode_type][dwd_key].keys() and pb_roleset != xpo[args.qnode_type][dwd_key]['pb_roleset']:
-                    # Don't allow the user to overwrite nodes that have LDC mappings
-                    if 'ldc_types' in xpo[args.qnode_type][dwd_key].keys() and len(xpo[args.qnode_type][dwd_key]['ldc_types']) > 0:
-                        logger.warning(f'\t{args.qnode_type}\t{dwd_key}\tLDC_mapping\tskip')
-                        continue
-                    logger.warning(f'\t{args.qnode_type}\t{dwd_key}\talready_exists_diff_mapping\toverwritten')
+            # Handle integration of new PB roleset into the existing DWD Node:
+            logger.info(f'\t{where}\t{dwd_key}\talready_exists\thandle_roleset_addition')
+            if 'additional_rolesets' in xpo[where][dwd_key].keys():
+                additional_rolesets = xpo[where][dwd_key]['additional_rolesets']
 
-                    # Don't overwrite if curation status is 'xpo'
-                    if 'curated_by' in xpo[args.qnode_type][dwd_key].keys() and xpo[args.qnode_type][dwd_key]['curated_by'] == 'xpo':
-                        logger.warning(f'\t{args.qnode_type}\t{dwd_key}\talready_curated_by_xpo\tskip')
-                        continue
-                    
-                    overwritten_nodes[dwd_key] = copy.deepcopy(xpo[args.qnode_type][dwd_key]) # snapshot of overwritten node
-
-                    # If applicable, keep old overlay parents, LDC mappings, & similar/related nodes:
-                    if 'overlay_parents' in xpo[args.qnode_type][dwd_key].keys():
-                        overlay_parents = xpo[args.qnode_type][dwd_key]['overlay_parents']
-                    if 'ldc_types' in xpo[args.qnode_type][dwd_key].keys():
-                        ldc_types = xpo[args.qnode_type][dwd_key]['ldc_types']
-                    if 'similar_nodes' in xpo[args.qnode_type][dwd_key].keys():
-                        similar_nodes = xpo[args.qnode_type][dwd_key]['similar_nodes']
-                    if 'related_qnodes' in xpo[args.qnode_type][dwd_key].keys():
-                        related_qnodes = xpo[args.qnode_type][dwd_key]['related_qnodes']
-                else:
-                    logger.warning(f'\t{args.qnode_type}\t{dwd_key}\talready_exists_same_mapping\tchange_curated_by')
-                    if args.qnode_type == 'events':
-                        try:
-                            curated_by = tokens[2].strip()
-                        except:
-                            curated_by = 'UNKNOWN'
-                        xpo[args.qnode_type][dwd_key]['curated_by'] = curated_by
+            # Check if this node already has a mapping
+            if 'pb_roleset' in xpo[where][dwd_key].keys() and pb_roleset != xpo[where][dwd_key]['pb_roleset']:
+                # Don't allow the user to overwrite nodes that have LDC mappings
+                if 'ldc_types' in xpo[where][dwd_key].keys() and len(xpo[where][dwd_key]['ldc_types']) > 0:
+                    logger.info(f'\t{where}\t{dwd_key}\tLDC_mapping\tadd_additional_roleset')
+                    if pb_roleset not in additional_rolesets:
+                        additional_rolesets.append(pb_roleset)
                     continue
+
+                # Don't overwrite primary PB roleset if curation status is 'xpo'
+                if 'curated_by' in xpo[where][dwd_key].keys():
+                    if xpo[where][dwd_key]['curated_by'] == 'xpo':
+                        logger.info(f'\t{where}\t{dwd_key}\talready_curated_by_xpo\tadd_additional_roleset')
+                        if pb_roleset not in additional_rolesets:
+                            additional_rolesets.append(pb_roleset)
+                        continue
+                    elif xpo[where][dwd_key]['curated_by'] == 'xpo_partial':
+                        if curated_by == 'xpo':
+                            logger.info(f'{where}\t{dwd_key}\tnew_roleset_higher_curation_status\treplace_primary_roleset_and_keep_as_additional_roleset')
+                            if xpo[where][dwd_key]['pb_roleset'] not in additional_rolesets:
+                                additional_rolesets.append(xpo[where][dwd_key]['pb_roleset'])
+                        else:
+                            logger.info(f'{where}\t{dwd_key}\tnew_roleset_same_curation_status\tadd_additional_roleset')
+                            if pb_roleset not in additional_rolesets:
+                                additional_rolesets.append(pb_roleset)
+                            continue
+                    elif xpo[where][dwd_key]['curated_by'] == 'CMU':
+                        logger.info(f'{where}\t{dwd_key}\tnew_roleset_higher_curation_status\treplace_primary_roleset')
+                
+                    # If applicable, keep old overlay parents, LDC mappings, & similar/related nodes:
+                    if 'overlay_parents' in xpo[where][dwd_key].keys():
+                        overlay_parents = xpo[where][dwd_key]['overlay_parents']
+                    if 'ldc_types' in xpo[where][dwd_key].keys():
+                        ldc_types = xpo[where][dwd_key]['ldc_types']
+                    if 'similar_nodes' in xpo[where][dwd_key].keys():
+                        similar_nodes = xpo[where][dwd_key]['similar_nodes']
+                    if 'related_qnodes' in xpo[where][dwd_key].keys():
+                        related_qnodes = xpo[where][dwd_key]['related_qnodes']
+            else:
+                logger.info(f'\t{where}\t{dwd_key}\talready_exists_same_mapping\tchange_curated_by')
+                if args.qnode_type == 'events':
+                    xpo[where][dwd_key]['curated_by'] = curated_by
+                continue
         else:
             # log this addition
             logger.info(f'\t{args.qnode_type}\t{dwd_key}\tnew_node\tnode_added')
             added += 1
 
         arguments = None
-        if args.qnode_type == 'entities':
+        if where == 'entities':
             type_string = 'entity_type'
             curated_by = 'xpo' # TODO Eventually, should change this
-        elif args.qnode_type == 'relations':
+        elif where == 'relations':
             type_string = 'relation_type'
 
             try:
@@ -413,37 +474,32 @@ if __name__ == '__main__':
         else:
             type_string = 'event_type'
             arguments = get_arguments(pb_roleset)
-            try:
-                curated_by = tokens[2].strip()
-            except:
-                curated_by = 'UNKNOWN'
 
-        xpo[args.qnode_type][dwd_key] = {}
-        xpo[args.qnode_type][dwd_key]['type'] = type_string
-        xpo[args.qnode_type][dwd_key]['name'] = name
-        xpo[args.qnode_type][dwd_key]['wd_node'] = qnode_string
-        xpo[args.qnode_type][dwd_key]['wd_description'] = desc
-        xpo[args.qnode_type][dwd_key]['overlay_parents'] = overlay_parents
+        xpo[where][dwd_key] = {}
+        xpo[where][dwd_key]['type'] = type_string
+        xpo[where][dwd_key]['name'] = name
+        xpo[where][dwd_key]['wd_node'] = qnode_string
+        xpo[where][dwd_key]['wd_description'] = desc
+        xpo[where][dwd_key]['overlay_parents'] = overlay_parents
         if pb_roleset:
-            xpo[args.qnode_type][dwd_key]['pb_roleset'] = pb_roleset
-        xpo[args.qnode_type][dwd_key]['curated_by'] = curated_by
+            xpo[where][dwd_key]['pb_roleset'] = pb_roleset
+            xpo[where][dwd_key]['additional_rolesets'] = additional_rolesets
+        xpo[where][dwd_key]['curated_by'] = curated_by
         if arguments:
-            xpo[args.qnode_type][dwd_key]['arguments'] = arguments
-        xpo[args.qnode_type][dwd_key]['ldc_types'] = ldc_types
-        xpo[args.qnode_type][dwd_key]['similar_nodes'] = similar_nodes
-        if args.qnode_type == 'relations':
-            xpo[args.qnode_type][dwd_key]['related_qnodes'] = related_qnodes
-        if args.qnode_type == 'events' and template and template_curation:
-            xpo[args.qnode_type][dwd_key]['template'] = template
-            xpo[args.qnode_type][dwd_key]['template_curation'] = template_curation
+            xpo[where][dwd_key]['arguments'] = arguments
+        xpo[where][dwd_key]['ldc_types'] = ldc_types
+        xpo[where][dwd_key]['similar_nodes'] = similar_nodes
+        if where == 'relations':
+            xpo[where][dwd_key]['related_qnodes'] = related_qnodes
+        if where == 'events':
+            if template and template_curation:
+                xpo[where][dwd_key]['template'] = template
+                xpo[where][dwd_key]['template_curation'] = template_curation
+            elif template is None:
+                xpo[where][dwd_key]['template'] = template_gen.generate_template(name, arguments)
+                xpo[where][dwd_key]['template_curation'] = 'auto'
 
     logger.info(f'Added {added} nodes.')
     of = open('updated_xpo_with_additions_please_rename.json', 'w')
     json.dump(xpo, of, indent=4)
     of.close()
-
-    if args.overwrite and len(overwritten_nodes) > 0:
-        logger.info(f'{len(overwritten_nodes)} nodes were overwritten. Writing the old nodes to a file.')
-        of = open('overwritten_nodes.json', 'w')
-        json.dump(overwritten_nodes, of, indent=4)
-        of.close()

@@ -1,3 +1,22 @@
+### Changes (2023-10-12)
+
+#### Added
+
+- 602 event nodes with PB mappings, see tab 1 [here](https://docs.google.com/spreadsheets/d/1-7eloNiPMDcQyduPvaVZLFY7ScNstfXhCEWGDlHZgeo/edit?usp=sharing)
+- New field `additional_rolesets` to accommodate a one-Qnode-to-many-rolesets mapping
+
+#### Changed
+
+- PB mappings for 85 nodes, see tab 2 [here](https://docs.google.com/spreadsheets/d/1-7eloNiPMDcQyduPvaVZLFY7ScNstfXhCEWGDlHZgeo/edit?usp=sharing)
+- Curation status for 421 nodes, see tab 3 [here](https://docs.google.com/spreadsheets/d/1-7eloNiPMDcQyduPvaVZLFY7ScNstfXhCEWGDlHZgeo/edit?usp=sharing)
+- 2,234 templates updated to human annotation status (indicated by the 'template_curation' field)
+
+### Changes (2023-05-03)
+
+#### Changed
+
+- DWD_Q36993249 parent changed to intentional_human_activity_Q451967 (was erroneously action_Q4026292) 
+
 ### Changes (2023-05-01)
 
 Updated labels and descriptions with the most up-to-date info from Wikidata. 

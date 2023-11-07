@@ -1,3 +1,20 @@
+### Changes (2023-11-07)
+
+Fixed WD redirects causing mismatching QIDs
+
+#### Changed
+
+Removed redundancies and replaced deprecated QIDs with the redirected QIDs on the following nodes:
+
+- DWD_Q12778120
+- DWD_Q2273230
+- DWD_Q17988854
+- DWD_Q28972820
+- DWD_Q18511800
+- DWD_Q83493482
+- DWD_Q94535766
+- DWD_Q2493625
+
 ### Changes (2023-10-12)
 
 #### Added

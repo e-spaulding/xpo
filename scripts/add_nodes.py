@@ -308,6 +308,9 @@ if __name__ == '__main__':
     if args.qnode_type == 'events':
         template_gen = TemplateGenerator()
 
+    if args.update_redirects:
+        redirects = {}
+
     f = open(filename)
     xpo = json.load(f)
     f.close()
@@ -364,19 +367,38 @@ if __name__ == '__main__':
 
         # Handle case in which we have a Wikidata redirect:
         if id_ != qnode_string:
-            try_dwd_key = dwd_key = 'DWD_' + id_
-            if try_dwd_key in xpo[args.qnode_type]:
-                if not args.update_redirects:
-                    logger.warning(f'\t{args.qnode_type}\t{qnode_string}\tWD_redirect\tskip')
-                    continue
+            redirected_dwd_key = 'DWD_' + id_
+            deprecated_dwd_key = 'DWD_' + qnode_string
+            if deprecated_dwd_key in xpo[args.qnode_type]:
+                # Check if we have a deprecated QID in the JSON
+                if redirected_dwd_key not in xpo[args.qnode_type]:
+                    # Not as complicated if the redirected QID is not *also* in the JSON...
+                    if args.update_redirects:
+                        logger.warning(f'\t{args.qnode_type}\tDWD_{qnode_string}\tWD_redirect_within_JSON\trenamed_{redirected_dwd_key}')
+                        deprecated_node = copy.deepcopy(xpo[args.qnode_type][deprecated_dwd_key])
+                        deprecated_node['wd_node'] = id_
+                        xpo[args.qnode_type][redirected_dwd_key] = deprecated_node
+                        del xpo[args.qnode_type][deprecated_dwd_key]
+                        dwd_key = redirected_dwd_key
+                        redirects[qnode_string] = id_
+                        qnode_string = id_
+                    else:
+                        logger.warning(f'\t{args.qnode_type}\t{qnode_string}\tWD_redirect\tuse_deprecated_qid')
+                        dwd_key = deprecated_dwd_key
                 else:
-                    logger.warning(f'\t{args.qnode_type}\tDWD_{qnode_string}\tWD_redirect\trenamed_{try_dwd_key}')
-                    # deprecated_nodes['DWD_' + qnode_string] = copy.deepcopy(xpo[args.qnode_type]['DWD_' + qnode_string])
-                    # deprecated_nodes['DWD_' + qnode_string]['redirects_to'] = try_dwd_key
-                    del xpo[args.qnode_type]['DWD_' + qnode_string]
-                    dwd_key = try_dwd_key
-        else:
-            dwd_key = 'DWD_' + qnode_string
+                    # Both the deprecated key and redirected key are in the JSON. 
+                    # Delete the deprecated node and keep the redirected node.
+                    logger.warning(f'\t{args.qnode_type}\tDWD_{qnode_string}\tdouble_node_redirect\tdeleted_{deprecated_dwd_key}_kept_{redirected_dwd_key}')
+                    xpo[args.qnode_type][redirected_dwd_key]['wd_node'] = id_
+                    del xpo[args.qnode_type][deprecated_dwd_key]
+                    dwd_key = redirected_dwd_key
+                    redirects[qnode_string] = id_
+                    qnode_string = id_
+            else:
+                # The deprecated node is not in the JSON yet, so use the redirected QID
+                logger.warning(f'\t{args.qnode_type}\t{qnode_string}\tWD_redirect_from_annotators\tuse_redirected_qid')
+                dwd_key = redirected_dwd_key
+                qnode_string = id_
 
         # What to do if we already have the Qnode in the overlay:
         if dwd_key in xpo['events'] or dwd_key in xpo['entities'] or dwd_key in xpo['relations'] or dwd_key in xpo['temporal_relations']:
@@ -500,6 +522,11 @@ if __name__ == '__main__':
                 xpo[where][dwd_key]['template_curation'] = 'auto'
 
     logger.info(f'Added {added} nodes.')
-    of = open('updated_xpo_with_additions_please_rename.json', 'w')
+    if args.update_redirects and len(redirects) > 0:
+        json_string = json.dumps(xpo)
+        for deprecated_key in redirects.keys():
+            json_string.replace(f'"{deprecated_key}"', f'"{redirects[deprecated_key]}"')
+        xpo = json.loads(json_string)
+    of = open('updated_xpo.json', 'w')
     json.dump(xpo, of, indent=4)
     of.close()

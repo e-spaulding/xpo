@@ -1,4 +1,4 @@
-# DWD Overlay Version 5.5
+# DWD Overlay Version 5.5.1
 
 The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets, their argument structures, and LDC tagsets. The overlay, which is in JSON format, is split into four sub-dictionaries: events, entities, relations, and temporal relations. Each key is the identifier for the DWD node, and each value contains a dictionary with various fields giving information for that node.
 
@@ -32,19 +32,23 @@ Finally, the PropBank-Wikidata mapping annotators record every time they find a 
 - `template` - A template which allows users to automatically generate a natural language sentence with an event and its argument instantiation. Only for events.
 - `template_curation` - The curation status of the template. Either manually vetted by XPO (`xpo`) or automatically generated, and possibly an unnatural or incorrect sentence (`auto`).
 
-## Changes from 5.4.7
+## Changes from 5.5
 
 Full changelog in [CHANGELOG.md](https://github.com/e-spaulding/xpo/blob/main/CHANGELOG.md).
 
-### Changes (2023-10-12)
+### Changes (2023-11-07)
 
-#### Added
-
-- 602 event nodes with PB mappings, see tab 1 [here](https://docs.google.com/spreadsheets/d/1-7eloNiPMDcQyduPvaVZLFY7ScNstfXhCEWGDlHZgeo/edit?usp=sharing)
-- New field `additional_rolesets` to accommodate a one-Qnode-to-many-rolesets mapping
+Fixed WD redirects causing mismatching QIDs
 
 #### Changed
 
-- PB mappings for 85 nodes, see tab 2 [here](https://docs.google.com/spreadsheets/d/1-7eloNiPMDcQyduPvaVZLFY7ScNstfXhCEWGDlHZgeo/edit?usp=sharing)
-- Curation status for 421 nodes, see tab 3 [here](https://docs.google.com/spreadsheets/d/1-7eloNiPMDcQyduPvaVZLFY7ScNstfXhCEWGDlHZgeo/edit?usp=sharing)
-- 2,234 templates updated to human annotation status (indicated by the 'template_curation' field)
+Removed redundancies and replaced deprecated QIDs with the redirected QIDs on the following nodes:
+
+- DWD_Q12778120
+- DWD_Q2273230
+- DWD_Q17988854
+- DWD_Q28972820
+- DWD_Q18511800
+- DWD_Q83493482
+- DWD_Q94535766
+- DWD_Q2493625

@@ -1,3 +1,31 @@
+### Changes (2023-12-01)
+
+Revisited original LDC-XPO mappings and rolesets on those mappings.
+
+#### Changed
+
+Mappings may have changed on the following nodes. Where mappings changed, templates were changed accordingly. See [here](https://docs.google.com/spreadsheets/d/1fcSSrFXIQfnCAij1xEBph11RIBZAqUWh/edit?usp=sharing&ouid=116351218637855731324&rtpof=true&sd=true) for further details.
+
+- DWD_Q22445448
+- DWD_Q707125
+- DWD_Q3241045
+- DWD_Q168983
+- DWD_Q83267
+- DWD_Q321839
+- DWD_Q98398200
+- DWD_Q3537603
+- DWD_Q841236
+- DWD_Q21004260
+- DWD_Q179661
+- DWD_Q192995
+- DWD_Q57699905
+- DWD_Q7590
+- DWD_Q12136
+
+#### Removed
+
+- DWD_Q2112782 (a typo)
+
 ### Changes (2023-11-07)
 
 Fixed WD redirects causing mismatching QIDs

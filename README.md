@@ -1,3 +1,13 @@
+# PropBank goes Public: Incorporation into Wikidata
+
+Welcome to the hub for the PropBank-Wikidata incorporation project. This repository contains the DWD Overlay (see documentation below), which is no longer being updated, in favor of migrating all information in the overlay to Wikidata itself. We have several thousand annotated mappings between PropBank rolesets and Wikidata Items that are ready to be migrated onto Wikidata. See below for more information.
+
+## Links
+
+* [Join the discussion on Wikidata](https://www.wikidata.org/wiki/Wikidata:WikiProject_Events_and_Role_Frames) and help us come to an agreement on how to get our data onto Wikidata.
+* Read: [PropBank goes Public: Incorporation into Wikidata](https://github.com/e-spaulding/xpo/blob/main/documentation/Spauldingetal2024PBgoesPublic.pdf)
+* Read: [The DARPA Wikidata Overlay: Wikidata as an ontology for natural language processing](https://github.com/e-spaulding/xpo/blob/main/documentation/SpauldingEtAl2023DWDOverlay.pdf)
+
 # DWD Overlay Version 5.5
 
 The DWD overlay is a subset of the DWD along with mappings to PropBank rolesets, their argument structures, and LDC tagsets. The overlay, which is in JSON format, is split into four sub-dictionaries: events, entities, relations, and temporal relations. Each key is the identifier for the DWD node, and each value contains a dictionary with various fields giving information for that node.

@@ -2,33 +2,9 @@
 
 This directory contains some scripts to help with the management of the JSON file.
 
-## Verification script
-
-The script `verification.py` checks for several items in the JSON and produces a number of text files summarizing notable information. Running this script can act as a sanity check after making changes to the JSON. The script checks for, and outputs:
-
-* Any mention of a Qnode that is NOT included in the overlay (either as an argument constraint, or an overlay parent)
-* Deprecated Qnodes (when the Qnode ID changes in Wikidata and is redirected to a new Qnode ID)
-* Minor issues: nodes missing names, nodes missing wd_descriptions, and nodes not following an alphabetical argument ordering
-* Number of entities, events, relations, and temporal relations, respectively
-* Number of _top level_ entities, events, relations, and temporal relations, respectively. Also, outputs top level nodes to a text file for easy human browsing.
-
-Usage:
-
-```
-verification.py [-h] [--file FILE] [--log_level LOG_LEVEL] [--make_corrections MAKE_CORRECTIONS]
-
-optional arguments:
-  -h, --help            show this help message and exit
-  --file FILE           The location of the xpo file to be checked. If not provided, it will be inferred.
-  --log_level LOG_LEVEL
-                        Log level for the logger. Set to WARNING by default. One of DEBUG, INFO, WARNING, ERROR, or CRITICAL.
-  --make_corrections MAKE_CORRECTIONS
-                        Whether or not to make corrections and output them in a new JSON file. By default, set to true.
-```
-
 ## Node addition script
 
-There is also a simple script `add_nodes.py` that adds nodes (of the same type) en masse. It accepts a text file of newline-separated Qnode IDs, like so:
+There is a simple script `add_nodes.py` that adds nodes (of the same type) en masse. It accepts a text file of newline-separated Qnode IDs, like so:
 
 ```
 Q3302947
@@ -66,4 +42,34 @@ optional arguments:
   --xpo XPO             The location of the XPO overlay file to be modified. If no filename is provided, it will be inferred.
   --log_level LOG_LEVEL
                         Log level for the logger. Set to WARNING by default. One of DEBUG, INFO, WARNING, ERROR, or CRITICAL.
+```
+
+## Template update script
+
+To update the templates based on DWD key, see the script `update_templates.py`, otherwise the script `generate_templates.py` generates templates automatically. Take care in updating templates if the PB mappings have changed and consider adding logic to double-check that the template and DWD key are based on the same PB argument structure.
+
+## Verification script
+
+THIS HAS NOT BEEN USED RECENTLY. DON'T KNOW IF IT STILL WORKS
+
+The script `verification.py` checks for several items in the JSON and produces a number of text files summarizing notable information. Running this script can act as a sanity check after making changes to the JSON. The script checks for, and outputs:
+
+* Any mention of a Qnode that is NOT included in the overlay (either as an argument constraint, or an overlay parent)
+* Deprecated Qnodes (when the Qnode ID changes in Wikidata and is redirected to a new Qnode ID)
+* Minor issues: nodes missing names, nodes missing wd_descriptions, and nodes not following an alphabetical argument ordering
+* Number of entities, events, relations, and temporal relations, respectively
+* Number of _top level_ entities, events, relations, and temporal relations, respectively. Also, outputs top level nodes to a text file for easy human browsing.
+
+Usage:
+
+```
+verification.py [-h] [--file FILE] [--log_level LOG_LEVEL] [--make_corrections MAKE_CORRECTIONS]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --file FILE           The location of the xpo file to be checked. If not provided, it will be inferred.
+  --log_level LOG_LEVEL
+                        Log level for the logger. Set to WARNING by default. One of DEBUG, INFO, WARNING, ERROR, or CRITICAL.
+  --make_corrections MAKE_CORRECTIONS
+                        Whether or not to make corrections and output them in a new JSON file. By default, set to true.
 ```

@@ -430,16 +430,26 @@ if __name__ == '__main__':
                 if 'curated_by' in xpo[where][dwd_key].keys():
                     if xpo[where][dwd_key]['curated_by'] == 'xpo':
                         logger.info(f'\t{where}\t{dwd_key}\talready_curated_by_xpo\tadd_additional_roleset')
+                        if 'template' in xpo[where][dwd_key].keys():
+                            template = xpo[where][dwd_key]['template']
+                            template_curation = xpo[where][dwd_key]['template_curation']
                         if pb_roleset not in additional_rolesets:
                             additional_rolesets.append(pb_roleset)
                         continue
                     elif xpo[where][dwd_key]['curated_by'] == 'xpo_partial':
                         if curated_by == 'xpo':
                             logger.info(f'{where}\t{dwd_key}\tnew_roleset_higher_curation_status\treplace_primary_roleset_and_keep_as_additional_roleset')
+                            # TODO The template should probably be updated
+                            if 'template' in xpo[where][dwd_key].keys():
+                                template = xpo[where][dwd_key]['template']
+                                template_curation = xpo[where][dwd_key]['template_curation']
                             if xpo[where][dwd_key]['pb_roleset'] not in additional_rolesets:
                                 additional_rolesets.append(xpo[where][dwd_key]['pb_roleset'])
                         else:
                             logger.info(f'{where}\t{dwd_key}\tnew_roleset_same_curation_status\tadd_additional_roleset')
+                            if 'template' in xpo[where][dwd_key].keys():
+                                template = xpo[where][dwd_key]['template']
+                                template_curation = xpo[where][dwd_key]['template_curation']
                             if pb_roleset not in additional_rolesets:
                                 additional_rolesets.append(pb_roleset)
                             continue
